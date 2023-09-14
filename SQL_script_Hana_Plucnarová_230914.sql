@@ -177,17 +177,16 @@ thppssf.`YEAR`,
 round(thppssf.GDP) AS GDP,
 thppssf.gini,
 round(AVG(thppspf.value_payroll)) AS average_payroll,
-round(AVG(tcpph.value)) AS average_food_price,
+round(tcppho.`AVG(value)`) AS average_food_price,
 thppspf.value_type_code,
 thppspf.payroll_year 
 FROM t_hana_plucnarova_project_sql_secondary_final thppssf 
 JOIN t_hana_plucnarova_project_sql_primary_final thppspf 
 	ON thppssf.`YEAR` = thppspf.payroll_year
-JOIN t_czechia_price_plucnar_hana tcpph 
-	ON thppssf.`YEAR` = tcpph.`DATE` 
+JOIN t_czechia_price_plucnar_hana_one tcppho 
+	ON thppssf.`YEAR` = tcppho.`DATE` 
 WHERE thppssf.state = 'Czech Republic'
 AND thppspf.value_type_code = '5958'
 GROUP BY thppssf.`YEAR` 
 ;
-
 
